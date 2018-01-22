@@ -22,7 +22,6 @@ class ViewController: UIViewController {
     @IBOutlet var cardButtons: [UIButton]!
     
     @IBAction func newGame(_ sender: UIButton) {
-        game.flipCount = 0
         for (_, value) in theme {
             themes.append(value)
         }
@@ -32,11 +31,11 @@ class ViewController: UIViewController {
             cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
         }
         game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+        flipCountLabel.text = "Flips: 0"
         scoreLabel.text = "Score: 0"
     }
     
     func themeReset() {
-        game.flipCount = 0
         for (_, value) in theme {
             themes.append(value)
         }
@@ -46,6 +45,7 @@ class ViewController: UIViewController {
             cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
         }
         game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+        flipCountLabel.text = "Flips: 0"
         scoreLabel.text = "Score: 0"
     }
     
