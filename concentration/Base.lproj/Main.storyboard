@@ -189,12 +189,17 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fZf-wR-Q4Z">
-                                <rect key="frame" x="16" y="699" width="343" height="29"/>
+                                <rect key="frame" x="16" y="698" width="343" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="emoji"/>
                                     <segment title="animal"/>
+                                    <segment title="faces"/>
+                                    <segment title="foods"/>
                                 </segments>
+                                <connections>
+                                    <action selector="changeTheme:" destination="BYZ-38-t0r" eventType="valueChanged" id="dXJ-Le-saF"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="0.49985936348127036" green="0.58397446065989844" blue="0.48886176573260604" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

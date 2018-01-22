@@ -29,10 +29,10 @@ class ViewController: UIViewController {
     
     @IBAction func newGame(_ sender: UIButton) {
         flipCount = 0
-        for (_, value) in emoji {
-            emojiChoices.append(value)
+        for (_, value) in theme {
+            themes.append(value)
         }
-        emoji.removeAll()
+        theme.removeAll()
         for index in cardButtons.indices {
             cardButtons[index].setTitle("", for: UIControlState.normal)
             cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
@@ -41,9 +41,40 @@ class ViewController: UIViewController {
         scoreLabel.text = "Score: 0"
     }
     
-    var emojiChoices = ["👻", "🎃", "🤖", "🤯", "🧟‍♂️", "🧛🏻‍♂️", "🦇", "🕸"]
+    func themeReset() {
+        flipCount = 0
+        for (_, value) in theme {
+            themes.append(value)
+        }
+        theme.removeAll()
+        for index in cardButtons.indices {
+            cardButtons[index].setTitle("", for: UIControlState.normal)
+            cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
+        }
+        game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+        scoreLabel.text = "Score: 0"
+    }
     
-    var emoji = [Int:String]()
+    @IBAction func changeTheme(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 1:
+            themeReset()
+            themes = ["🐱", "🐹", "🐼", "🐰", "🐻", "🐶", "🐷", "🐸"]
+        case 2:
+            themeReset()
+            themes = ["😃", "😆", "😍", "😇", "🤪", "😘", "😡", "😵"]
+        case 3:
+            themeReset()
+            themes = ["🥐", "🍔", "🍕", "🥪", "🍣", "🌭", "🍟", "🍜"]
+        default:
+            themeReset()
+            themes = ["👻", "🎃", "🤖", "🤯", "🧟‍♂️", "🧛🏻‍♂️", "🦇", "🕸"]
+        }
+    }
+    
+    var themes = ["👻", "🎃", "🤖", "🤯", "🧟‍♂️", "🧛🏻‍♂️", "🦇", "🕸"]
+    
+    var theme = [Int:String]()
     
     @IBAction func touchCard(_ sender: UIButton) {
         flipCount += 1
@@ -71,9 +102,9 @@ class ViewController: UIViewController {
     }
     
     func emoji(for card: Card) -> String {
-        if emoji[card.identifier] == nil, emojiChoices.count > 0 {
-            let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
-            emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
+        if theme[card.identifier] == nil, themes.count > 0 {
+            let randomIndex = Int(arc4random_uniform(UInt32(themes.count)))
+            theme[card.identifier] = themes.remove(at: randomIndex)
         }
         //how to convert: create a new thing, use the init of new thing to create one
         /*if emoji[card.identifier] != nil {
@@ -81,7 +112,7 @@ class ViewController: UIViewController {
         } else {
             return "?"
         }*/
-        return emoji[card.identifier] ?? "?"
+        return theme[card.identifier] ?? "?"
     }
 }
 
