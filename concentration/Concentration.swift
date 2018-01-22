@@ -12,7 +12,28 @@ class Concentration {
     var cards = [Card]()
     var flipCount: Int
     var score: Int
-    var indexOfOneAndOnlyFaceUpCard: Int?
+    
+    var indexOfOneAndOnlyFaceUpCard: Int? {
+        get {
+            var foundIndex: Int?
+            for index in cards.indices {
+                if cards[index].isFaceUp {
+                    if foundIndex == nil {
+                        foundIndex = index
+                    } else {
+                        return nil
+                    }
+                }
+            }
+            return foundIndex
+        }
+        set {
+            for index in cards.indices {
+                cards[index].isFaceUp = (index == newValue)
+                //in case index == newValue, isFaceUp = true
+            }
+        }
+    }
     
     
     
@@ -35,12 +56,13 @@ class Concentration {
                     }
                 }
                 cards[index].isFaceUp = true
-                indexOfOneAndOnlyFaceUpCard = nil
+                //indexOfOneAndOnlyFaceUpCard = nil
             } else {
-                for flipDownIndex in cards.indices {
-                    cards[flipDownIndex].isFaceUp = false
-                }
-                cards[index].isFaceUp = true
+//                for flipDownIndex in cards.indices {
+//                    cards[flipDownIndex].isFaceUp = false
+//                }
+//                cards[index].isFaceUp = true
+            //calculated in indexOfOneAndOnlyFaceUpCard
                 indexOfOneAndOnlyFaceUpCard = index
             }
         }

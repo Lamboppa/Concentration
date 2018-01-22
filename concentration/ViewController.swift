@@ -13,7 +13,11 @@ class ViewController: UIViewController {
     
     //lazy: doesnt actually initialize until someone grabs it/someone tries to use it
     //lazy cannot have a didset(property observer)
-    lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+    lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    
+    var numberOfPairsOfCards: Int {
+        return (cardButtons.count + 1) / 2
+    }
     
     @IBOutlet weak var flipCountLabel: UILabel!
     
