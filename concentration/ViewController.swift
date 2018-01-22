@@ -15,12 +15,6 @@ class ViewController: UIViewController {
     //lazy cannot have a didset(property observer)
     lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
     
-    var flipCount = 0 {
-        didSet {
-            flipCountLabel.text = "Flips: \(flipCount)"
-        }
-    }
-    
     @IBOutlet weak var flipCountLabel: UILabel!
     
     @IBOutlet weak var scoreLabel: UILabel!
@@ -28,7 +22,7 @@ class ViewController: UIViewController {
     @IBOutlet var cardButtons: [UIButton]!
     
     @IBAction func newGame(_ sender: UIButton) {
-        flipCount = 0
+        game.flipCount = 0
         for (_, value) in theme {
             themes.append(value)
         }
@@ -42,7 +36,7 @@ class ViewController: UIViewController {
     }
     
     func themeReset() {
-        flipCount = 0
+        game.flipCount = 0
         for (_, value) in theme {
             themes.append(value)
         }
@@ -77,7 +71,6 @@ class ViewController: UIViewController {
     var theme = [Int:String]()
     
     @IBAction func touchCard(_ sender: UIButton) {
-        flipCount += 1
         if let cardNumber = cardButtons.index(of: sender) {
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
@@ -98,6 +91,7 @@ class ViewController: UIViewController {
                 button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
             }
         }
+        flipCountLabel.text = "Flips: \(game.flipCount)"
         scoreLabel.text = "Score: \(game.score)"
     }
     
