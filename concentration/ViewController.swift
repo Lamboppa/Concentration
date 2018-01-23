@@ -13,19 +13,22 @@ class ViewController: UIViewController {
     
     //lazy: doesnt actually initialize until someone grabs it/someone tries to use it
     //lazy cannot have a didset(property observer)
-    lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    //lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+
+    
+    private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     
     var numberOfPairsOfCards: Int {
         return (cardButtons.count + 1) / 2
     }
     
-    @IBOutlet weak var flipCountLabel: UILabel!
+    @IBOutlet private weak var flipCountLabel: UILabel!
     
-    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet private weak var scoreLabel: UILabel!
     
-    @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet private var cardButtons: [UIButton]!
     
-    @IBAction func newGame(_ sender: UIButton) {
+    @IBAction private func newGame(_ sender: UIButton) {
         for (_, value) in theme {
             themes.append(value)
         }
@@ -39,7 +42,7 @@ class ViewController: UIViewController {
         scoreLabel.text = "Score: 0"
     }
     
-    func themeReset() {
+    private func themeReset() {
         for (_, value) in theme {
             themes.append(value)
         }
@@ -53,7 +56,7 @@ class ViewController: UIViewController {
         scoreLabel.text = "Score: 0"
     }
     
-    @IBAction func changeTheme(_ sender: UISegmentedControl) {
+    @IBAction private func changeTheme(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 1:
             themeReset()
@@ -70,11 +73,11 @@ class ViewController: UIViewController {
         }
     }
     
-    var themes = ["👻", "🎃", "🤖", "🤯", "🧟‍♂️", "🧛🏻‍♂️", "🦇", "🕸"]
+    private var themes = ["👻", "🎃", "🤖", "🤯", "🧟‍♂️", "🧛🏻‍♂️", "🦇", "🕸"]
     
-    var theme = [Int:String]()
+    private var theme = [Int:String]()
     
-    @IBAction func touchCard(_ sender: UIButton) {
+    @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
@@ -83,7 +86,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func updateViewFromModel() {
+    private func updateViewFromModel() {
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
@@ -99,10 +102,11 @@ class ViewController: UIViewController {
         scoreLabel.text = "Score: \(game.score)"
     }
     
-    func emoji(for card: Card) -> String {
+    private func emoji(for card: Card) -> String {
         if theme[card.identifier] == nil, themes.count > 0 {
-            let randomIndex = Int(arc4random_uniform(UInt32(themes.count)))
-            theme[card.identifier] = themes.remove(at: randomIndex)
+//            let randomIndex = Int(arc4random_uniform(UInt32(themes.count)))
+//            theme[card.identifier] = themes.remove(at: randomIndex)
+            theme[card.identifier] = themes.remove(at: themes.count.arc4random)
         }
         //how to convert: create a new thing, use the init of new thing to create one
         /*if emoji[card.identifier] != nil {
@@ -113,4 +117,17 @@ class ViewController: UIViewController {
         return theme[card.identifier] ?? "?"
     }
 }
+
+extension Int {
+    var arc4random: Int {
+        if self > 0 {
+            return Int(arc4random_uniform(UInt32(self)))
+        } else if self < 0 {
+            return -Int(arc4random_uniform(UInt32(abs(self))))
+        } else {
+            return 0
+        }
+    }
+}
+
 
