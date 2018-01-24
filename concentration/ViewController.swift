@@ -60,22 +60,25 @@ class ViewController: UIViewController {
         switch sender.selectedSegmentIndex {
         case 1:
             themeReset()
-            themes = ["🐱", "🐹", "🐼", "🐰", "🐻", "🐶", "🐷", "🐸"]
+            themes = "🐱🐹🐼🐰🐻🐶🐷🐸"
         case 2:
             themeReset()
-            themes = ["😃", "😆", "😍", "😇", "🤪", "😘", "😡", "😵"]
+            themes = "😃😆😍😇🤪😘😡😵"
         case 3:
             themeReset()
-            themes = ["🥐", "🍔", "🍕", "🥪", "🍣", "🌭", "🍟", "🍜"]
+            themes = "🥐🍔🍕🥪🍣🌭🍟🍜"
         default:
             themeReset()
-            themes = ["👻", "🎃", "🤖", "🤯", "🧟‍♂️", "🧛🏻‍♂️", "🦇", "🕸"]
+            themes = "👻🎃🤖🤯🧟‍♂️🧛🏻‍♂️🦇🕸"
         }
     }
     
-    private var themes = ["👻", "🎃", "🤖", "🤯", "🧟‍♂️", "🧛🏻‍♂️", "🦇", "🕸"]
+//    private var themes = ["👻", "🎃", "🤖", "🤯", "🧟‍♂️", "🧛🏻‍♂️", "🦇", "🕸"]
+    private var themes = "👻🎃🤖🤯🧟‍♂️🧛🏻‍♂️🦇🕸"
     
-    private var theme = [Int:String]()
+    
+    
+    private var theme = [Card:String]()
     
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
@@ -103,10 +106,11 @@ class ViewController: UIViewController {
     }
     
     private func emoji(for card: Card) -> String {
-        if theme[card.identifier] == nil, themes.count > 0 {
+        if theme[card] == nil, themes.count > 0 {
 //            let randomIndex = Int(arc4random_uniform(UInt32(themes.count)))
 //            theme[card.identifier] = themes.remove(at: randomIndex)
-            theme[card.identifier] = themes.remove(at: themes.count.arc4random)
+            let randomSringIndex = themes.index(themes.startIndex, offsetBy: themes.count.arc4random)
+            theme[card] = String(themes.remove(at: randomSringIndex))
         }
         //how to convert: create a new thing, use the init of new thing to create one
         /*if emoji[card.identifier] != nil {
@@ -114,7 +118,7 @@ class ViewController: UIViewController {
         } else {
             return "?"
         }*/
-        return theme[card.identifier] ?? "?"
+        return theme[card] ?? "?"
     }
 }
 

@@ -8,11 +8,16 @@
 
 import Foundation
 
-class Concentration {
+//struct are value type, gets copied when passing around, swift only copy bits when you mutate it(copy-on-write semantics)
+//struct have copy-on-write semantics, class doesn't
+struct Concentration {
+    
+    //var is writable, if let, not writable
     private(set) var cards = [Card]()
     var flipCount: Int
     var score: Int
     
+    //already mutatable, if only get, not mutatable
     private var indexOfOneAndOnlyFaceUpCard: Int? {
         get {
             var foundIndex: Int?
@@ -37,19 +42,19 @@ class Concentration {
     
     
     
-    func chooseCard(at index: Int) {
+    mutating func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): chosen index not in the cards")
         flipCount += 1
         cards[index].chosen = true
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
-                if cards[matchIndex].identifier == cards[index].identifier {
+                if cards[matchIndex] == cards[index] {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
                     score += 2
                 } else {
                     for otherCard in cards.indices {
-                        if cards[otherCard].identifier == cards[indexOfOneAndOnlyFaceUpCard!].identifier && otherCard != indexOfOneAndOnlyFaceUpCard {
+                        if cards[otherCard] == cards[indexOfOneAndOnlyFaceUpCard!] && otherCard != indexOfOneAndOnlyFaceUpCard {
                             if cards[otherCard].chosen, index != otherCard, score > 0 {
                                 score -= 1
                             }
