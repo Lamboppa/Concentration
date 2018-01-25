@@ -23,6 +23,27 @@ class ViewController: UIViewController {
     }
     
     @IBOutlet private weak var flipCountLabel: UILabel!
+//    {
+//        didSet {
+//            updateFlipCountLabel()
+//        }
+//    }
+    
+    
+//    private(set) var flipCount = 0 {
+//        didset {
+//            updateFlipCountLabel()
+//        }
+//    }
+//
+//    private func updateFlipCountLabel() {
+//        let attributes: [NSAttributedStringKey:Any] = [
+//            .strokeWidth = 5.0,
+//            .strokeColor = UIColor.orange
+//        ]
+//        let attributedString = NSAttributedString(string:"Flips:\(game.flipCount)", attributes: attributes)
+//        flipCountLabel.attributedText = attributedString
+//    }
     
     @IBOutlet private weak var scoreLabel: UILabel!
     
@@ -95,7 +116,7 @@ class ViewController: UIViewController {
             let card = game.cards[index]
             if card.isFaceUp {
                 button.setTitle(emoji(for: card), for: UIControlState.normal)
-                button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             } else {
                 button.setTitle("", for: UIControlState.normal)
                 button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
