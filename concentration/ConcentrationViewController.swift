@@ -9,7 +9,7 @@
 import UIKit
 
 //classes get free init with no argument as long as all their var is initialized
-class ViewController: UIViewController {
+class ConcentrationViewController: UIViewController {
     
     //lazy: doesnt actually initialize until someone grabs it/someone tries to use it
     //lazy cannot have a didset(property observer)
@@ -50,10 +50,10 @@ class ViewController: UIViewController {
     @IBOutlet private var cardButtons: [UIButton]!
     
     @IBAction private func newGame(_ sender: UIButton) {
-        for (_, value) in theme {
-            themes.append(value)
+        for (_, value) in emoji {
+            emojiChoices.append(value)
         }
-        theme.removeAll()
+        emoji.removeAll()
         for index in cardButtons.indices {
             cardButtons[index].setTitle("", for: UIControlState.normal)
             cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
@@ -63,43 +63,49 @@ class ViewController: UIViewController {
         scoreLabel.text = "Score: 0"
     }
     
-    private func themeReset() {
-        for (_, value) in theme {
-            themes.append(value)
-        }
-        theme.removeAll()
-        for index in cardButtons.indices {
-            cardButtons[index].setTitle("", for: UIControlState.normal)
-            cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
-        }
-        game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
-        flipCountLabel.text = "Flips: 0"
-        scoreLabel.text = "Score: 0"
-    }
-    
-    @IBAction private func changeTheme(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 1:
-            themeReset()
-            themes = "🐱🐹🐼🐰🐻🐶🐷🐸"
-        case 2:
-            themeReset()
-            themes = "😃😆😍😇🤪😘😡😵"
-        case 3:
-            themeReset()
-            themes = "🥐🍔🍕🥪🍣🌭🍟🍜"
-        default:
-            themeReset()
-            themes = "👻🎃🤖🤯🧟‍♂️🧛🏻‍♂️🦇🕸"
-        }
-    }
+//    private func themeReset() {
+//        for (_, value) in emoji {
+//            emojiChoices.append(value)
+//        }
+//        emoji.removeAll()
+//        for index in cardButtons.indices {
+//            cardButtons[index].setTitle("", for: UIControlState.normal)
+//            cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
+//        }
+//        game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+//        flipCountLabel.text = "Flips: 0"
+//        scoreLabel.text = "Score: 0"
+//    }
+//
+//    @IBAction private func changeTheme(_ sender: UISegmentedControl) {
+//        switch sender.selectedSegmentIndex {
+//        case 1:
+//            themeReset()
+//            emojiChoices = "🐱🐹🐼🐰🐻🐶🐷🐸"
+//        case 2:
+//            themeReset()
+//            emojiChoices = "😃😆😍😇🤪😘😡😵"
+//        case 3:
+//            themeReset()
+//            emojiChoices = "🥐🍔🍕🥪🍣🌭🍟🍜"
+//        default:
+//            themeReset()
+//            emojiChoices = "👻🎃🤖🤯🧟‍♂️🧛🏻‍♂️🦇🕸"
+//        }
+//    }
     
 //    private var themes = ["👻", "🎃", "🤖", "🤯", "🧟‍♂️", "🧛🏻‍♂️", "🦇", "🕸"]
-    private var themes = "👻🎃🤖🤯🧟‍♂️🧛🏻‍♂️🦇🕸"
+    private var emojiChoices = "👻🎃🤖🤯🧟‍♂️🧛🏻‍♂️🦇🕸"
     
+    var theme: String? {
+        didSet {
+            emojiChoices = theme ?? ""
+            emoji = [:]
+            updateViewFromModel()
+        }
+    }
     
-    
-    private var theme = [Card:String]()
+    private var emoji = [Card:String]()
     
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
@@ -111,27 +117,29 @@ class ViewController: UIViewController {
     }
     
     private func updateViewFromModel() {
-        for index in cardButtons.indices {
-            let button = cardButtons[index]
-            let card = game.cards[index]
-            if card.isFaceUp {
-                button.setTitle(emoji(for: card), for: UIControlState.normal)
-                button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-            } else {
-                button.setTitle("", for: UIControlState.normal)
-                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
+        if cardButtons != nil {
+            for index in cardButtons.indices {
+                let button = cardButtons[index]
+                let card = game.cards[index]
+                if card.isFaceUp {
+                    button.setTitle(emoji(for: card), for: UIControlState.normal)
+                    button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                } else {
+                    button.setTitle("", for: UIControlState.normal)
+                    button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
+                }
             }
+            flipCountLabel.text = "Flips: \(game.flipCount)"
+            scoreLabel.text = "Score: \(game.score)"
         }
-        flipCountLabel.text = "Flips: \(game.flipCount)"
-        scoreLabel.text = "Score: \(game.score)"
     }
     
     private func emoji(for card: Card) -> String {
-        if theme[card] == nil, themes.count > 0 {
+        if emoji[card] == nil, emojiChoices.count > 0 {
 //            let randomIndex = Int(arc4random_uniform(UInt32(themes.count)))
 //            theme[card.identifier] = themes.remove(at: randomIndex)
-            let randomSringIndex = themes.index(themes.startIndex, offsetBy: themes.count.arc4random)
-            theme[card] = String(themes.remove(at: randomSringIndex))
+            let randomSringIndex = emojiChoices.index(emojiChoices.startIndex, offsetBy: emojiChoices.count.arc4random)
+            emoji[card] = String(emojiChoices.remove(at: randomSringIndex))
         }
         //how to convert: create a new thing, use the init of new thing to create one
         /*if emoji[card.identifier] != nil {
@@ -139,7 +147,7 @@ class ViewController: UIViewController {
         } else {
             return "?"
         }*/
-        return theme[card] ?? "?"
+        return emoji[card] ?? "?"
     }
 }
 
