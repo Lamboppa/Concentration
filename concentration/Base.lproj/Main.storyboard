@@ -321,7 +321,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="35"/>
                                         <state key="normal" title="Emoji"/>
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="showDetail" identifier="Choose Theme" id="R28-DN-fG5"/>
+                                            <action selector="changeTheme:" destination="9zh-Z6-FgG" eventType="touchUpInside" id="Xon-ho-jID"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7HA-zP-AfQ">
@@ -329,7 +329,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="35"/>
                                         <state key="normal" title="Animals"/>
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="showDetail" identifier="Choose Theme" id="yLx-Ia-tZN"/>
+                                            <action selector="changeTheme:" destination="9zh-Z6-FgG" eventType="touchUpInside" id="ZZU-5d-e8T"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eqM-vY-RE1">
@@ -337,7 +337,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="35"/>
                                         <state key="normal" title="Faces"/>
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="showDetail" identifier="Choose Theme" id="cmK-So-SGH"/>
+                                            <action selector="changeTheme:" destination="9zh-Z6-FgG" eventType="touchUpInside" id="ZFu-V2-x0Z"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ip5-hp-JH1">
@@ -345,7 +345,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="35"/>
                                         <state key="normal" title="Foods"/>
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="showDetail" identifier="Choose Theme" id="dve-Zk-loE"/>
+                                            <action selector="changeTheme:" destination="9zh-Z6-FgG" eventType="touchUpInside" id="jmT-sK-9Hd"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -359,6 +359,9 @@
                         <viewLayoutGuide key="safeArea" id="Euo-H2-rIw"/>
                     </view>
                     <navigationItem key="navigationItem" id="47Z-sY-8yS"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="Choose Theme" id="asx-Xs-KQr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ST7-L1-ax6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -384,6 +387,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="blL-HO-ce9"/>
+        <segue reference="asx-Xs-KQr"/>
     </inferredMetricsTieBreakers>
 </document>
